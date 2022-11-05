@@ -5,18 +5,16 @@ const path = require('path')
 
 module.exports = {
     entry: path.resolve(__dirname, '../src/script.js'),
-    output:
-    {
+    output: {
         filename: 'bundle.[contenthash].js',
         path: path.resolve(__dirname, '../dist')
     },
     devtool: 'source-map',
-    plugins:
-    [
+    plugins: [
         new CopyWebpackPlugin({
-            patterns: [
-                { from: path.resolve(__dirname, '../static') }
-            ]
+            patterns: [{
+                from: path.resolve(__dirname, '../static')
+            }]
         }),
         new HtmlWebpackPlugin({
             template: path.resolve(__dirname, '../src/index.html'),
@@ -24,10 +22,8 @@ module.exports = {
         }),
         new MiniCSSExtractPlugin()
     ],
-    module:
-    {
-        rules:
-        [
+    module: {
+        rules: [
             // HTML
             {
                 test: /\.(html)$/,
@@ -38,8 +34,7 @@ module.exports = {
             {
                 test: /\.js$/,
                 exclude: /node_modules/,
-                use:
-                [
+                use: [
                     'babel-loader'
                 ]
             },
@@ -47,8 +42,7 @@ module.exports = {
             // CSS
             {
                 test: /\.css$/,
-                use:
-                [
+                use: [
                     MiniCSSExtractPlugin.loader,
                     'css-loader'
                 ]
@@ -57,31 +51,33 @@ module.exports = {
             // Images
             {
                 test: /\.(jpg|png|gif|svg)$/,
-                use:
-                [
-                    {
-                        loader: 'file-loader',
-                        options:
-                        {
-                            outputPath: 'assets/images/'
-                        }
+                use: [{
+                    loader: 'file-loader',
+                    options: {
+                        outputPath: 'assets/images/'
                     }
-                ]
+                }]
+            },
+            // glb/gltf
+            {
+                test: /\.(glb|gltf)$/,
+                use: [{
+                    loader: 'file-loader',
+                    options: {
+                        outputPath: 'assets/models/'
+                    }
+                }]
             },
 
             // Fonts
             {
                 test: /\.(ttf|eot|woff|woff2)$/,
-                use:
-                [
-                    {
-                        loader: 'file-loader',
-                        options:
-                        {
-                            outputPath: 'assets/fonts/'
-                        }
+                use: [{
+                    loader: 'file-loader',
+                    options: {
+                        outputPath: 'assets/fonts/'
                     }
-                ]
+                }]
             }
         ]
     }
